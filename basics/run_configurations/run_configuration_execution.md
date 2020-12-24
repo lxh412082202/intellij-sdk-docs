@@ -1,8 +1,10 @@
 ---
-title: Execution
+title: Execution——执行
 ---
 
 The standard execution of a run action goes through the following steps:
+
+**CN:**  run操作的标准执行经过以下步骤:
 
 * The user selects a *run configuration* (for example, by choosing one from the run configurations combobox) and an *executor*  (for example, by pressing a toolbar button created by the executor).
 * The *program runner* that will actually execute the process is selected, by polling all registered program runners and asking whether they can run the specified run profile with the specified executor ID.

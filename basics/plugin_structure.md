@@ -1,8 +1,10 @@
 ---
-title: Plugin Structure
+title: Plugin Structure——插件结构
 ---
 
 Click the following topics to learn more about the plugin system structure and plugin lifecycles:
+
+**CN:**  点击以下主题以了解更多关于插件系统结构和插件生命周期的信息:
 
 * [Plugin Content](plugin_structure/plugin_content.md)
 * [Plugin Class Loaders](plugin_structure/plugin_class_loaders.md)

@@ -1,50 +1,73 @@
 ---
-title: Messaging infrastructure
+title: Messaging infrastructure 消息传递基础结构
 ---
 
 
-# Purpose
+# Purpose 目的
 
 The purpose of this document is to introduce the messaging infrastructure available in the IntelliJ Platform to developers and plugin writers. It is intended to answer why, when and how to use it.
 
-# Rationale
+**CN:**  本文档的目的是向开发人员和插件作者介绍IntelliJ平台中可用的消息传递基础结构。它的目的是回答为什么、何时以及如何使用它。
+
+# Rationale 基本原理
 
 So, what is messaging in the IntelliJ Platform and why do we need it? Basically, its implementation of
 [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern)
 that provides additional features like _broadcasting on hierarchy_ and special _nested events_ processing (_nested event_ here is a situation when new event is fired (directly or indirectly) from the callback of another event).
 
-# Design
+**CN:**  那么，IntelliJ平台中的消息传递是什么?我们为什么需要它?
+基本上，它的
+[Observer pattern(观察者模式)](https://en.wikipedia.org/wiki/Observer_pattern)
+的实现提供了额外的特性，比如在层次结构上广播和特殊的嵌套事件处理(嵌套事件在这里是一种情况，当新的事件被触发(直接或间接)从另一个事件的回调)。
 
-Here are the main components of the messaging API.
+# Design 设计
 
-## Topic
+Here are the main components of the messaging API. 
+
+**CN:**  下面是消息传递API的主要组件。
+
+## Topic 主题
 
 This class serves as an endpoint at the messaging infrastructure. I.e. clients are allowed to subscribe to the topic within particular bus and to send messages to particular topic within particular bus.
+
+**CN:**  该类充当消息传递基础设施的端点。例如，客户可以订阅特定总线内的主题，并向特定总线内的特定主题发送消息。
 
 ![Topic](img/topic.png)
 
 *  *display name*  just a human-readable name used for logging/monitoring purposes;
+*  **CN:**  *display name*  只是一个人类可读的名称，用于日志/监视目的;
 *  *broadcast direction*  will be explained in details at Broadcasting. Default value is *TO\_CHILDREN*;
+*  **CN:**  *broadcast direction* 将在Broadcasting中详细解释。默认值为 *TO\_CHILDREN*；
 *  *listener class*  that is a business interface for particular topic.
 Subscribers register implementation of this interface at the messaging infrastructure and publishers may later retrieve object that conforms (IS-A) to it and call any method defined there. Messaging infrastructure takes care on dispatching that to all subscribers of the topic, i.e. the same method with the same arguments will be called on the registered callbacks;
-
-## Message bus
+*  **CN:**  *listener class*  这是针对特定topic的业务接口。
+订阅者在消息传递基础结构上注册此接口的实现，发布者稍后可以检索符合该接口的对象并调用其中定义的任何方法。消息传递基础设施负责将其分派给主题的所有订阅者，即在已注册的回调中调用具有相同参数的相同方法;
+## Message bus——消息总线
 
 Is the core of the messaging system. Is used at the following scenarios:
 
+**CN:**  是消息传递系统的核心。用于以下场景:
+
 ![Bus](img/bus.png)
 
-## Connection
+## Connection——连接
 
 Manages all subscriptions for particular client within particular bus.
+
+**CN:**  管理特定总线中特定客户端的所有订阅。
 
 ![Connection](img/connection.png)
 
 *  keeps number of *topic handler* mappings (callbacks to invoke when message for the target topic is received)
 *Note*: not more than one handler per-topic within the same connection is allowed;
 
+* **CN:**  保持*topic handler*映射的数量(当接收到目标主题的消息时调用的回调)，*Note*:在同一个连接中每个主题不允许超过一个处理程序;
+
 *  it's possible to specify *default handler* and subscribe to the target topic without explicitly provided callback.
 Connection will use that *default handler* when storing *(topic-handler)* mapping;
+
+* **CN:**  可以在不显式提供回调的情况下指定*default handler*并订阅目标主题。
+           Connection在存储 *(topic-handler)* 映射时将使用该 *default handler*;
 
 *  it's possible to explicitly release acquired resources (*disconnect()* method).
 Also it can be plugged to standard semi-automatic disposing 
@@ -52,9 +75,14 @@ Also it can be plugged to standard semi-automatic disposing
 [`Disposable`](upsource:///platform/util/src/com/intellij/openapi/Disposable.java)
 );
 
-## Putting altogether
+* **CN:**  可以显式地释放获得的资源( *disconnect()* 方法)。
+           可插接标准半自动处置([`Disposable`](upsource:///platform/util/src/com/intellij/openapi/Disposable.java));
+
+## Putting altogether——完全
 
 *Defining business interface and topic*
+
+**CN:**  定义业务接口和主题
 
 ```java
 public interface ChangeActionNotifier {
@@ -66,12 +94,13 @@ public interface ChangeActionNotifier {
 }
 ```
 
-*Subscribing*
+*Subscribing*——订阅
 
 ![Subscribing](img/subscribe.png)
 
 > **NOTE** If targeting 2019.3 or later, use [declarative registration](/basics/plugin_structure/plugin_listeners.md) if possible.
 
+> **CN:**  **NOTE** 如果目标是2019.3或更高，尽可能使用[declarative registration](/basics/plugin_structure/plugin_listeners.md)。
 
 ```java
 public void init(MessageBus bus) {
@@ -88,7 +117,7 @@ public void init(MessageBus bus) {
 }
 ```
 
-*Publishing*
+*Publishing*——发布
 
 ![Publishing](img/publish.png)
 
@@ -105,7 +134,7 @@ public void doChange(Context context) {
 }
 ```
 
-*Existing resources*
+*Existing resources*——现有资源
 
 *  *MessageBus* instances are available via
 [`ComponentManager.getMessageBus()`](upsource:///platform/extensions/src/com/intellij/openapi/components/ComponentManager.java)<!--#L85-->
@@ -113,21 +142,36 @@ public void doChange(Context context) {
 [`Application`](upsource:///platform/core-api/src/com/intellij/openapi/application/Application.java),
 [`Project`](upsource:///platform/core-api/src/com/intellij/openapi/project/Project.java);
 
+*  **CN:**  *MessageBus* 实例通过以下方式可用
+                         [`ComponentManager.getMessageBus()`](upsource:///platform/extensions/src/com/intellij/openapi/components/ComponentManager.java) <!--#L85-->
+                         (许多标准接口实现了它，例如。
+                         [`Application`](upsource:///platform/core-api/src/com/intellij/openapi/application/Application.java)、
+                         [`Project`](upsource:///platform/core-api/src/com/intellij/openapi/project/Project.java);
+
 *  number of public topics are used by the *IntelliJ Platform*, e.g.
 [`AppTopics`](upsource:///platform/platform-api/src/com/intellij/AppTopics.java),
 [`ProjectTopics`](upsource:///platform/projectModel-api/src/com/intellij/ProjectTopics.java)
 etc.
 So, it's possible to subscribe to them in order to receive information about the processing;
 
-# Broadcasting
+*  **CN:**  公共topics的数量被 *IntelliJ Platform* 使用，例如。
+            [`AppTopics`](upsource:///platform/platform-api/src/com/intellij/AppTopics.java)、
+            [`ProjectTopics`](upsource:///platform/projectModel-api/src/com/intellij/ProjectTopics.java)等等。
+            所以，我们可以订阅它们来接收关于处理过程的信息;
+
+# Broadcasting——广播
 
 Message buses can be organised into hierarchies. Moreover, the *IntelliJ Platform* has them already:
+
+**CN:**  消息总线可以组织成层次结构。此外， *IntelliJ Platform* 已经具备了:
 
 ![Standard hierarchy](img/standard-hierarchy.png)
 
 That allows to notify subscribers registered in one message bus on messages sent to another message bus.
 
-*Example:*
+**CN:**  允许在发送到另一个消息总线的消息上通知在一个消息总线中注册的订阅者。
+
+*Example:*——例子：
 
 ![Parent-child broadcast](img/parent-child-broadcast.png)
 

@@ -1,5 +1,5 @@
 ---
-title: Implementing Lexer
+title: Implementing Lexer——实现词法分析程序
 ---
 
 The lexer, or

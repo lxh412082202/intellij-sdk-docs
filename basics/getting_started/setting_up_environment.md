@@ -1,8 +1,8 @@
 ---
-title: Setting Up a Development Environment
+title: Setting Up a Development Environment——设置开发环境
 ---
 
-### Preliminary Steps
+### Preliminary Steps——初步的步骤
 
 Use the following checklist to ensure that you are ready to develop your custom plugins.
 
@@ -10,7 +10,7 @@ Use the following checklist to ensure that you are ready to develop your custom 
 - **Plugin DevKit** plugin must be [enabled in IntelliJ IDEA](https://www.jetbrains.com/help/idea/managing-plugins.html)
 - **IntelliJ Platform SDK** must be configured for your IDEA project. For more information, see below.
   
-### Configuring IntelliJ Platform SDK
+### Configuring IntelliJ Platform SDK——配置IntelliJ平台SDK
   
 To set up your plugin development environment:
 

@@ -3,6 +3,7 @@ title: Project
 ---
 
 In the *IntelliJ Platform*, a project encapsulates all your source code, libraries, build instructions into a single organizational unit. Everything you do in the IDE is done within the context of a project. A project defines some collections referred to as modules and libraries. Depending on the logical and functional requirements for the project, you can create a single-module or a multi-module project.
+在IntelliJ平台中，一个项目将所有的源代码、库、构建指令封装到一个单一的组织单元中。您在IDE中所做的一切都是在项目的上下文中完成的。
 
 ## Working with projects
 

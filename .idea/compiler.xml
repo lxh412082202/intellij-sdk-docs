@@ -4,8 +4,10 @@
     <addNotNullAssertions enabled="false" />
     <wildcardResourcePatterns />
     <bytecodeTargetLevel>
-      <module name="framework.main" target="1.8" />
-      <module name="framework.test" target="1.8" />
+      <module name="facet.main" target="1.8" />
+      <module name="facet.test" target="1.8" />
+      <module name="inspection.main" target="1.8" />
+      <module name="inspection.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

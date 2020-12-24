@@ -4,8 +4,9 @@ title: Localization Guide
 
 
 The purpose of the document is to describe steps necessary to create localized versions of IDEA.
+本文档的目的是描述创建IDEA本地化版本所需的步骤。
 
-## Application Bundle Layout
+## Application Bundle Layout 应用程序包的布局
 
 In regards to localization purpose all the resources (in English) that need to be translated are located in jar files called
 ***resources_en.jar***.
@@ -13,6 +14,12 @@ There's one such jar file for IDEA core functionality located at
 ***%INST_HOME%\lib\resources_en.jar***
 and one jar for each of bundled plugins at
 ***%INST_HOME%\plugins\$Plugin$\lib\resources_en.jar***.
+为了实现本地化，所有需要翻译的资源(英文)都位于名为***resources_en.jar***的jar文件中。
+在
+***%INST_HOME%\lib\resources_en.jar***
+中有一个用于IDEA核心功能的jar文件，在
+***%INST_HOME%\plugins\$Plugin$\lib\resources_en.jar***
+中有一个用于每个绑定插件的jar文件。
 
 Translated resources should be jarred and placed exactly in the same folder original jar comes from.
 So localization pack should have exactly the same number of jar files and they have to be laid out in exactly the same way original jars are laid out.
